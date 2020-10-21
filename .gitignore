@@ -1,0 +1,8 @@
+build/*
+project/*
+!project/RTE
+!project/*.uvoptx
+!project/*.uvprojx
+project/RTE/*
+!project/RTE/CMSIS
+!project/RTE/Device
