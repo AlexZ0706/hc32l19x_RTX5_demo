@@ -1,5 +1,5 @@
-#ifndef __INNO_SHELL_H__
-#define __INNO_SHELL_H__
+#ifndef __SHELL_PORT_H__
+#define __SHELL_PORT_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -11,4 +11,4 @@ void shell_init(void);
 }
 #endif
 
-#endif /* __INNO_SHELL_H__ */
+#endif /* __SHELL_PORT_H__ */

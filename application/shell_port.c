@@ -7,6 +7,7 @@
 
 #include "log.h"
 #include "shell.h"
+#include "shell_port.h"
 
 const osThreadAttr_t ThreadShell_Attr = 
 {

@@ -1,7 +1,8 @@
 #include "gpio.h"
 #include "cmsis_os2.h"
 #include "flash.h"
-#include "inno_shell.h"
+#include "shell_port.h"
+#include "lfs_port.h"
 
 static void App_LedInit(void);
 void AppTaskLED(void *argument);
@@ -11,7 +12,7 @@ const osThreadAttr_t ThreadLED_Attr =
     .name = "osRtxLEDThread",
     .attr_bits = osThreadDetached,
     .priority = osPriorityHigh2,
-    .stack_size = 512,
+    .stack_size = 2048,
 };
 
 osThreadId_t ThreadIdTaskLED = NULL;
@@ -64,13 +65,16 @@ int32_t main(void)
     App_SystemClkInit_PLL48M_byXTH();
     
     /* 内核初始化 */
-	osKernelInitialize();                                  
+	osKernelInitialize();
 
 	/* 创建启动任务 */
 	ThreadIdTaskLED = osThreadNew(AppTaskLED, NULL, &ThreadLED_Attr);
     
     //初始化 letter-shell
     shell_init();
+    
+    //初始化lfs
+    lfs_init();
 
 	/* 开启多任务 */
 	osKernelStart();

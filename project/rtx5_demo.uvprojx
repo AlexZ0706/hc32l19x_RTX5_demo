@@ -336,7 +336,7 @@
             <v6Rtti>0</v6Rtti>
             <VariousControls>
               <MiscControls></MiscControls>
-              <Define></Define>
+              <Define>LFS_CONFIG=lfs_config.h</Define>
               <Undefine></Undefine>
               <IncludePath>..\driver\inc;..\mcu\common;..\application;..\midware\SEGGER_RTT_V680a\RTT;..\midware\letter-shell-master\src;..\midware\letter-shell-master\extensions\log;..\midware\littlefs-2.2.1</IncludePath>
             </VariousControls>
@@ -388,9 +388,24 @@
               <FilePath>..\application\main.c</FilePath>
             </File>
             <File>
-              <FileName>inno_shell.c</FileName>
+              <FileName>shell_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\application\inno_shell.c</FilePath>
+              <FilePath>..\application\shell_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>lfs_config.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\application\lfs_config.h</FilePath>
+            </File>
+            <File>
+              <FileName>lfs_crc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\lfs_crc.c</FilePath>
+            </File>
+            <File>
+              <FileName>lfs_port.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\lfs_port.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -466,6 +481,21 @@
               <FileName>log.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\midware\letter-shell-master\extensions\log\log.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>littlefs</GroupName>
+          <Files>
+            <File>
+              <FileName>lfs.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\midware\littlefs-2.2.1\lfs.c</FilePath>
+            </File>
+            <File>
+              <FileName>lfs_util.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\midware\littlefs-2.2.1\lfs_util.c</FilePath>
             </File>
           </Files>
         </Group>
