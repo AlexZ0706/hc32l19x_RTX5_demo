@@ -275,7 +275,7 @@
               <OCR_RVCT4>
                 <Type>1</Type>
                 <StartAddress>0x0</StartAddress>
-                <Size>0x40000</Size>
+                <Size>0x38000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
                 <Type>1</Type>
@@ -312,7 +312,7 @@
           </ArmAdsMisc>
           <Cads>
             <interw>1</interw>
-            <Optim>7</Optim>
+            <Optim>1</Optim>
             <oTime>0</oTime>
             <SplitLS>0</SplitLS>
             <OneElfS>1</OneElfS>
@@ -338,7 +338,7 @@
               <MiscControls></MiscControls>
               <Define>LFS_CONFIG=lfs_config.h</Define>
               <Undefine></Undefine>
-              <IncludePath>..\driver\inc;..\mcu\common;..\application;..\midware\SEGGER_RTT_V680a\RTT;..\midware\letter-shell-master\src;..\midware\letter-shell-master\extensions\log;..\midware\littlefs-2.2.1</IncludePath>
+              <IncludePath>..\driver\inc;..\mcu\common;..\application;..\application\port;..\midware\SEGGER_RTT_V680a\RTT;..\midware\letter-shell-master\src;..\midware\letter-shell-master\extensions\log;..\midware\littlefs-2.2.1;..\midware\AutoInit\src</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -390,22 +390,27 @@
             <File>
               <FileName>shell_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\application\shell_port.c</FilePath>
+              <FilePath>..\application\port\shell_port.c</FilePath>
             </File>
             <File>
               <FileName>lfs_config.h</FileName>
               <FileType>5</FileType>
-              <FilePath>..\application\lfs_config.h</FilePath>
+              <FilePath>..\application\port\lfs_config.h</FilePath>
             </File>
             <File>
               <FileName>lfs_crc.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\application\lfs_crc.c</FilePath>
+              <FilePath>..\application\port\lfs_crc.c</FilePath>
             </File>
             <File>
               <FileName>lfs_port.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\application\lfs_port.c</FilePath>
+              <FilePath>..\application\port\lfs_port.c</FilePath>
+            </File>
+            <File>
+              <FileName>app_led.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\application\app_led.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -496,6 +501,16 @@
               <FileName>lfs_util.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\midware\littlefs-2.2.1\lfs_util.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>autoinit</GroupName>
+          <Files>
+            <File>
+              <FileName>auto_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\midware\AutoInit\src\auto_init.c</FilePath>
             </File>
           </Files>
         </Group>

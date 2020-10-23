@@ -1,8 +1,7 @@
 #include "lfs.h"
 #include "flash.h"
 #include "log.h"
-
-#include "lfs_port.h"
+#include "auto_init.h"
 
 #ifndef LFS_READ_SIZE
     #define LFS_READ_SIZE 16
@@ -76,7 +75,6 @@ static int block_device_read(const struct lfs_config *c, lfs_block_t block,
 	lfs_off_t off, void *buffer, lfs_size_t size)
 {
     uint8_t *index = (uint8_t *)buffer;
-	//sfud_read(w25q128, (block * c->block_size + off), size, (uint8_t*)buffer);
     for(int i = 0; i < size; i++)
     {
         *(index + i) = *((volatile uint8_t*)(block * c->block_size + off + LFS_BLOCK_BASE_ADDR + i));
@@ -88,7 +86,6 @@ static int block_device_read(const struct lfs_config *c, lfs_block_t block,
 static int block_device_prog(const struct lfs_config *c, lfs_block_t block,
 	lfs_off_t off, const void *buffer, lfs_size_t size)
 {
-	//sfud_write(w25q128, (block * c->block_size + off), size, (uint8_t*)buffer);
     uint8_t *index = (uint8_t *)buffer;
     for(int i = 0; i < size; i++)
     {
@@ -99,7 +96,6 @@ static int block_device_prog(const struct lfs_config *c, lfs_block_t block,
  
 static int block_device_erase(const struct lfs_config *c, lfs_block_t block)
 {
-	//sfud_erase(w25q128,(block * c->block_size), c->block_size);
     Flash_SectorErase((block * c->block_size + LFS_BLOCK_BASE_ADDR));
 	return 0;
 }
@@ -109,7 +105,7 @@ static int block_device_sync(const struct lfs_config *c)
 	return 0;
 }
 
-void lfs_init(void)
+int lfs_port_init(void)
 {
     ///< 确保初始化正确执行后方能进行FLASH编程操作，FLASH初始化（编程时间,休眠模式配置）
     while(Ok != Flash_Init(12, TRUE))
@@ -127,7 +123,7 @@ void lfs_init(void)
         lfs_mount(&lfs, &cfg);
     }
 
-#if 0   //测试移植是否成功
+#if 0   // 测试移植是否成功
     // read current count
     uint32_t boot_count = 0;
     //lfs_file_open(&lfs, &file, "boot_count", LFS_O_RDWR | LFS_O_CREAT);
@@ -146,12 +142,14 @@ void lfs_init(void)
     lfs_file_close(&lfs, &file);
 
     // print the boot count
-    logInfo("boot_count: %d\n", boot_count);
+    //logInfo("boot_count: %d\n", boot_count);
 #endif
+    return 0;
 }
+INIT_COMPONENT_EXPORT(lfs_port_init);
 
-void lfs_uninit(void)
+int lfs_uninit(void)
 {
-    lfs_unmount(&lfs);
+    return lfs_unmount(&lfs);
 }
 

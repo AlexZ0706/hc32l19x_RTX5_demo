@@ -1,9 +1,12 @@
 #ifndef _LFS_CONFIG_H_
 #define _LFS_CONFIG_H_
 
-#define LFS_NO_ASSERT
 #define LFS_NO_MALLOC
 //#define LFS_YES_TRACE
+#define LFS_NO_DEBUG
+#define LFS_NO_WARN
+#define LFS_NO_ERROR
+#define LFS_NO_ASSERT
 
 // System includes
 #include <stdint.h>
