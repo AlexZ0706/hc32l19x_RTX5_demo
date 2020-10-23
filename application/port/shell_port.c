@@ -8,6 +8,7 @@
 #include "auto_init.h"
 #include "log.h"
 #include "shell.h"
+#include "ringbuff.h"
 
 const osThreadAttr_t ThreadShell_Attr = 
 {
@@ -18,8 +19,10 @@ const osThreadAttr_t ThreadShell_Attr =
 };
 osThreadId_t ThreadIdTaskShell = NULL;
 
-Shell   shell;
-char    shell_buf[1024] = {0};
+Shell       shell;
+char        shell_buf[1024] = {0};
+char        ringBuf[64] = {0};
+sRingbuff   g_ring_buff = {0};
 
 void uartLogWrite(char *buffer, short len);
 Log uartLog = {
@@ -37,6 +40,8 @@ static void uart_init(void)
     DDL_ZERO_STRUCT(stcGpioCfg);
     DDL_ZERO_STRUCT(stcCfg);
     DDL_ZERO_STRUCT(stcBaud);
+    
+    ring_buff_init(&g_ring_buff, ringBuf,  sizeof(ringBuf));
     
     Sysctrl_SetPeripheralGate(SysctrlPeripheralGpio,TRUE);  // GPIO外设模块时钟使能
     Sysctrl_SetPeripheralGate(SysctrlPeripheralUart0,TRUE); // UART0外设模块时钟使能
@@ -59,7 +64,21 @@ static void uart_init(void)
     Uart_ClrStatus(M0P_UART0,UartRC);                       // 清接收请求
     Uart_ClrStatus(M0P_UART0,UartTC);                       // 清发送请求
     Uart_EnableIrq(M0P_UART0,UartRxIrq);                    // 使能串口接收中断
-    Uart_EnableIrq(M0P_UART0,UartTxIrq);                    // 使能串口发送中断
+    //Uart_EnableIrq(M0P_UART0,UartTxIrq);                    // 使能串口发送中断
+    EnableNvic(UART0_2_IRQn, IrqLevel3, TRUE);              // 系统中断使能
+}
+
+void Uart0_IRQHandler(void)
+{
+    if(Uart_GetStatus(M0P_UART0, UartRC))                   // UART0数据接收
+    {
+        Uart_ClrStatus(M0P_UART0, UartRC);                  // 清中断状态位
+        uint8_t c = Uart_ReceiveData(M0P_UART0);            // 接收数据字节
+        if(RINGBUFF_OK != ring_buff_push_data(&g_ring_buff, (uint8_t *)&c, 1))
+        {
+            // do not printf in isr at normal situation
+        }
+    }
 }
 
 static void shell_write(char data)
@@ -69,17 +88,11 @@ static void shell_write(char data)
 
 static int8_t shell_read(char *data)
 {
-    if((Uart_GetStatus(M0P_UART0, UartFE))||(Uart_GetStatus(M0P_UART0, UartPE)))  // 错误请求
+    if(1 == ring_buff_pop_data(&g_ring_buff, (uint8_t *)data, 1))
     {
-        Uart_ClrStatus(M0P_UART0, UartFE);                  // 清除帧错误标记
-        Uart_ClrStatus(M0P_UART0, UartPE);                  // 清除奇偶校验错误标记
-    }
-    if(Uart_GetStatus(M0P_UART0,UartRC))                    // 接收到数据
-    {
-        Uart_ClrStatus(M0P_UART0,UartRC);
-        *data = Uart_ReceiveData(M0P_UART0);                // 接收数据
         return 0;
     }
+    osDelay(2);
     return -1;
 }
 

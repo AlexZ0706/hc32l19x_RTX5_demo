@@ -6,7 +6,7 @@ static const osThreadAttr_t threadAttr =
 {
     .name = "osRtxLEDThread",
     .attr_bits = osThreadDetached,
-    .priority = osPriorityHigh2,
+    .priority = osPriorityLow,
     .stack_size = 256,
 };
 
