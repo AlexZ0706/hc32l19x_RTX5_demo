@@ -1,0 +1,3 @@
+[submodule "midware/AutoInit"]
+	path = midware/AutoInit
+	url = https://github.com/AlexZ0706/AutoInit.git
