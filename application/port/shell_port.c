@@ -15,7 +15,7 @@ const osThreadAttr_t ThreadShell_Attr =
     .name = "osRtxShellThread",
     .attr_bits = osThreadDetached,
     .priority = osPriorityLow,
-    .stack_size = 512,
+    .stack_size = 1024,
 };
 osThreadId_t ThreadIdTaskShell = NULL;
 
