@@ -6,3 +6,4 @@ project/*
 project/RTE/*
 !project/RTE/CMSIS
 !project/RTE/Device
+!project/RTE/Compiler
