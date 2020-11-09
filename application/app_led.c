@@ -32,7 +32,7 @@ static void ledInit(void)
     Gpio_Init(STK_LED_PORT, STK_LED_PIN, &stcGpioCfg);
 }
 
-void ledTask(void *argument)
+static void ledTask(void *argument)
 {
     while(1)
     {
