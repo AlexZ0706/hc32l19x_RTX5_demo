@@ -44,7 +44,10 @@ static void App_SystemClkInit_PLL48M_byXTH(void)
 }
 
 int32_t main(void)
-{ 
+{
+    // 重置中断向量表地址
+    *((volatile uint32_t*) 0xE000ED08) = 0x4000;
+    
     // 切换时钟
     // system_clock_init();
     App_SystemClkInit_PLL48M_byXTH();

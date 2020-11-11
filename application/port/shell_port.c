@@ -64,7 +64,7 @@ static void uart_init(void)
     Uart_ClrStatus(M0P_UART0,UartRC);                       // 清接收请求
     Uart_ClrStatus(M0P_UART0,UartTC);                       // 清发送请求
     Uart_EnableIrq(M0P_UART0,UartRxIrq);                    // 使能串口接收中断
-    //Uart_EnableIrq(M0P_UART0,UartTxIrq);                    // 使能串口发送中断
+    //Uart_EnableIrq(M0P_UART0,UartTxIrq);                  // 使能串口发送中断
     EnableNvic(UART0_2_IRQn, IrqLevel3, TRUE);              // 系统中断使能
 }
 

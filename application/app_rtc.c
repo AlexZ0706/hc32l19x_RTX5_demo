@@ -18,13 +18,13 @@ static int rtcInit(void)
     RtcInitStruct.rtcClksrc             = RtcClkXtl;    // 外部低速时钟
     RtcInitStruct.rtcPrdsel.rtcPrdsel   = RtcPrds;      // 周期中断类型PRDS
     RtcInitStruct.rtcPrdsel.rtcPrds     = RtcNone;      // 不产生周期中断
-    RtcInitStruct.rtcTime.u8Second      = 0x55;         // 配置RTC时间2019年4月17日10:01:55
-    RtcInitStruct.rtcTime.u8Minute      = 0x01;
-    RtcInitStruct.rtcTime.u8Hour        = 0x10;
-    RtcInitStruct.rtcTime.u8Day         = 0x17;
-    RtcInitStruct.rtcTime.u8DayOfWeek   = 0x04;
-    RtcInitStruct.rtcTime.u8Month       = 0x04;
-    RtcInitStruct.rtcTime.u8Year        = 0x19;
+    RtcInitStruct.rtcTime.u8Second      = 0x00;         // 配置RTC时间2019年4月17日10:01:55
+    RtcInitStruct.rtcTime.u8Minute      = 0x45;
+    RtcInitStruct.rtcTime.u8Hour        = 0x18;
+    RtcInitStruct.rtcTime.u8Day         = 0x09;
+    RtcInitStruct.rtcTime.u8DayOfWeek   = 0x01;
+    RtcInitStruct.rtcTime.u8Month       = 0x11;
+    RtcInitStruct.rtcTime.u8Year        = 0x20;
     RtcInitStruct.rtcCompen             = RtcCompenEnable;  // 使能时钟误差补偿
     RtcInitStruct.rtcCompValue          = 0;                // 补偿值  根据实际情况进行补偿
     Rtc_Init(&RtcInitStruct);
@@ -68,12 +68,12 @@ int shell_time(int argc, char *argv[])
     
     Rtc_ReadDateTime(&rtcTime);
     
-    logPrintln("20%X-%X-%X %X:%X:%X", rtcTime.u8Year, 
-                                      rtcTime.u8Month, 
-                                      rtcTime.u8Day, 
-                                      rtcTime.u8Hour,
-                                      rtcTime.u8Minute,
-                                      rtcTime.u8Second);
+    logPrintln("20%X-%X-%X %02X:%02X:%02X", rtcTime.u8Year, 
+                                            rtcTime.u8Month, 
+                                            rtcTime.u8Day, 
+                                            rtcTime.u8Hour,
+                                            rtcTime.u8Minute,
+                                            rtcTime.u8Second);
     return 0;
 }
 SHELL_EXPORT_CMD(SHELL_CMD_PERMISSION(0)|SHELL_CMD_TYPE(SHELL_TYPE_CMD_MAIN), time, shell_time, getchar time);
